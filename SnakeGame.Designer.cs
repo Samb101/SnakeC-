@@ -1,6 +1,6 @@
-﻿namespace WindowsFormsApplication2
+﻿namespace SnakeProject
 {
-    partial class Form1
+    partial class SnakeGame
     {
         /// <summary>
         /// Variable nécessaire au concepteur.
@@ -34,6 +34,7 @@
             this.labelGameOver = new System.Windows.Forms.Label();
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
             this.gamePanel = new System.Windows.Forms.Panel();
+            this.buttonRestart = new System.Windows.Forms.Button();
             this.gamePanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,18 +54,19 @@
             this.labelScore.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
             this.labelScore.Location = new System.Drawing.Point(128, 51);
             this.labelScore.Name = "labelScore";
-            this.labelScore.Size = new System.Drawing.Size(105, 25);
+            this.labelScore.Size = new System.Drawing.Size(23, 25);
             this.labelScore.TabIndex = 2;
-            this.labelScore.Text = "labelScore";
+            this.labelScore.Text = "0";
             // 
             // labelGameOver
             // 
             this.labelGameOver.AutoSize = true;
+            this.labelGameOver.BackColor = System.Drawing.SystemColors.HighlightText;
             this.labelGameOver.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelGameOver.Location = new System.Drawing.Point(288, 171);
+            this.labelGameOver.Location = new System.Drawing.Point(279, 176);
             this.labelGameOver.Name = "labelGameOver";
-            this.labelGameOver.Padding = new System.Windows.Forms.Padding(10);
-            this.labelGameOver.Size = new System.Drawing.Size(93, 35);
+            this.labelGameOver.Padding = new System.Windows.Forms.Padding(20);
+            this.labelGameOver.Size = new System.Drawing.Size(113, 55);
             this.labelGameOver.TabIndex = 3;
             this.labelGameOver.Text = "GAME OVER";
             this.labelGameOver.Visible = false;
@@ -73,13 +75,25 @@
             // 
             this.gamePanel.BackColor = System.Drawing.SystemColors.ScrollBar;
             this.gamePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.gamePanel.Controls.Add(this.buttonRestart);
             this.gamePanel.Controls.Add(this.labelGameOver);
             this.gamePanel.Location = new System.Drawing.Point(18, 90);
             this.gamePanel.Name = "gamePanel";
             this.gamePanel.Size = new System.Drawing.Size(700, 400);
             this.gamePanel.TabIndex = 4;
             // 
-            // Form1
+            // buttonRestart
+            // 
+            this.buttonRestart.Location = new System.Drawing.Point(279, 234);
+            this.buttonRestart.Name = "buttonRestart";
+            this.buttonRestart.Size = new System.Drawing.Size(113, 23);
+            this.buttonRestart.TabIndex = 4;
+            this.buttonRestart.Text = "Recommencer";
+            this.buttonRestart.UseVisualStyleBackColor = true;
+            this.buttonRestart.Visible = false;
+            this.buttonRestart.Click += new System.EventHandler(this.buttonRestart_Click);
+            // 
+            // SnakeGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -88,7 +102,7 @@
             this.Controls.Add(this.gamePanel);
             this.Controls.Add(this.labelScore);
             this.Controls.Add(this.label1);
-            this.Name = "Form1";
+            this.Name = "SnakeGame";
             this.Text = "Form1";
             this.gamePanel.ResumeLayout(false);
             this.gamePanel.PerformLayout();
@@ -104,6 +118,7 @@
         private System.Windows.Forms.Label labelGameOver;
         private System.Windows.Forms.Timer gameTimer;
         private System.Windows.Forms.Panel gamePanel;
+        private System.Windows.Forms.Button buttonRestart;
     }
 }
 
