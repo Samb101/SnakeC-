@@ -34,13 +34,14 @@
             this.labelGameOver = new System.Windows.Forms.Label();
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
             this.gamePanel = new System.Windows.Forms.Panel();
+            this.gamePanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Calibri", 20F);
-            this.label1.Location = new System.Drawing.Point(12, 45);
+            this.label1.Location = new System.Drawing.Point(24, 45);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(87, 33);
             this.label1.TabIndex = 1;
@@ -50,7 +51,7 @@
             // 
             this.labelScore.AutoSize = true;
             this.labelScore.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.labelScore.Location = new System.Drawing.Point(117, 51);
+            this.labelScore.Location = new System.Drawing.Point(128, 51);
             this.labelScore.Name = "labelScore";
             this.labelScore.Size = new System.Drawing.Size(105, 25);
             this.labelScore.TabIndex = 2;
@@ -60,7 +61,7 @@
             // 
             this.labelGameOver.AutoSize = true;
             this.labelGameOver.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelGameOver.Location = new System.Drawing.Point(290, 290);
+            this.labelGameOver.Location = new System.Drawing.Point(288, 171);
             this.labelGameOver.Name = "labelGameOver";
             this.labelGameOver.Padding = new System.Windows.Forms.Padding(10);
             this.labelGameOver.Size = new System.Drawing.Size(93, 35);
@@ -71,9 +72,11 @@
             // gamePanel
             // 
             this.gamePanel.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.gamePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.gamePanel.Controls.Add(this.labelGameOver);
             this.gamePanel.Location = new System.Drawing.Point(18, 90);
             this.gamePanel.Name = "gamePanel";
-            this.gamePanel.Size = new System.Drawing.Size(677, 413);
+            this.gamePanel.Size = new System.Drawing.Size(700, 400);
             this.gamePanel.TabIndex = 4;
             // 
             // Form1
@@ -81,13 +84,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(717, 530);
-            this.Controls.Add(this.labelGameOver);
+            this.ClientSize = new System.Drawing.Size(739, 523);
             this.Controls.Add(this.gamePanel);
             this.Controls.Add(this.labelScore);
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.gamePanel.ResumeLayout(false);
+            this.gamePanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
