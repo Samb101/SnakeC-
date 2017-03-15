@@ -80,7 +80,7 @@ namespace SnakeProject
 
             for (int i = 0; i < nb; i++)
             {
-                int random_x = rnd.Next(1, 679) % 20 * 20;
+                int random_x = rnd.Next(1, 679) % 20 * 40;
                 int random_y = rnd.Next(1, 379) % 20 * 20;
 
                 if (checkEmptyPosition(random_x, random_y))
@@ -97,7 +97,7 @@ namespace SnakeProject
 
             for (int i = 0; i < nb; i++)
             {
-                int random_x = rnd.Next(1, 679) % 20 * 20;
+                int random_x = rnd.Next(1, 679) % 20 * 40;
                 int random_y = rnd.Next(1, 379) % 20 * 20;
 
                 if (checkEmptyPosition(random_x, random_y))

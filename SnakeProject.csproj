@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Food.cs" />
     <Compile Include="Pixel.cs" />
+    <Compile Include="Scores.cs" />
     <Compile Include="SnakeGame.cs">
       <SubType>Form</SubType>
     </Compile>
