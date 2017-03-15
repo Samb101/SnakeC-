@@ -1,0 +1,12 @@
+C:\Users\Samuel\Desktop\SnakeScores\bin\Debug\SnakeScores.exe.config
+C:\Users\Samuel\Desktop\SnakeScores\bin\Debug\SnakeScores.exe
+C:\Users\Samuel\Desktop\SnakeScores\bin\Debug\SnakeScores.pdb
+C:\Users\Samuel\Desktop\SnakeScores\obj\Debug\SnakeScores.csprojResolveAssemblyReference.cache
+C:\Users\Samuel\Desktop\SnakeScores\obj\Debug\SnakeScores.exe
+C:\Users\Samuel\Desktop\SnakeScores\obj\Debug\SnakeScores.pdb
+C:\Users\Samuel\Desktop\Snake\SnakeScores\bin\Debug\SnakeScores.exe.config
+C:\Users\Samuel\Desktop\Snake\SnakeScores\bin\Debug\SnakeScores.exe
+C:\Users\Samuel\Desktop\Snake\SnakeScores\bin\Debug\SnakeScores.pdb
+C:\Users\Samuel\Desktop\Snake\SnakeScores\obj\Debug\SnakeScores.csprojResolveAssemblyReference.cache
+C:\Users\Samuel\Desktop\Snake\SnakeScores\obj\Debug\SnakeScores.exe
+C:\Users\Samuel\Desktop\Snake\SnakeScores\obj\Debug\SnakeScores.pdb
