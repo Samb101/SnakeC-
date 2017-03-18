@@ -10,7 +10,7 @@ namespace SnakeScores
     {
         #region Constants
 
-        private const string SCORES_FILENAME = @"scores.xml";
+        private const string SCORES_FILENAME = @"../../data/scores.xml";
 
         #endregion Constants
 
@@ -24,19 +24,16 @@ namespace SnakeScores
             // Enter the students
             for (;;)
             {
-                Console.WriteLine("Enter a student name (empty to finish)");
-                String studentName = Console.ReadLine();
-                if (String.IsNullOrEmpty(studentName)) break;
 
                 Console.WriteLine("Enter a student firstname (empty to finish)");
-                String studentFirstName = Console.ReadLine();
-                if (String.IsNullOrEmpty(studentName)) break;
+                String userName = Console.ReadLine();
+                if (String.IsNullOrEmpty(userName)) break;
 
                 Console.WriteLine("Enter the student mark");
-                Int32 studentMark = Int32.Parse(Console.ReadLine());
+                Int32 userScore = Int32.Parse(Console.ReadLine());
 
                 // Add student in the array
-                Score.RegisterScore(studentName, studentFirstName, studentMark);
+                Score.RegisterScore(userName, userScore);
             }
 
             // Dump the current student list

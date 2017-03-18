@@ -3,11 +3,24 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace SnakeProject
 {
     public partial class SnakeGame : Form
     {
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn
+       (
+           int nLeftRect, // x-coordinate of upper-left corner
+           int nTopRect, // y-coordinate of upper-left corner
+           int nRightRect, // x-coordinate of lower-right corner
+           int nBottomRect, // y-coordinate of lower-right corner
+           int nWidthEllipse, // height of ellipse
+           int nHeightEllipse // width of ellipse
+        );
+
+
         private int WIDTH = 20;
         private int HEIGHT = 20;
         private int SPEED = 20;
@@ -21,19 +34,35 @@ namespace SnakeProject
 
         private int score;
         private bool gameOver;
+
+
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+            if (m.Msg == WM_NCHITTEST)
+                m.Result = (IntPtr)(HT_CAPTION);
+        }
+
+        private const int WM_NCHITTEST = 0x84;
+        private const int HT_CLIENT = 0x1;
+        private const int HT_CAPTION = 0x2;
         
-        public SnakeGame()
+
+
+
+    public SnakeGame()
         {
             InitializeComponent();
-
+            this.FormBorderStyle = FormBorderStyle.None;
+            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 10, 10));
             gamePanel.Paint += new PaintEventHandler(gamePanel_Paint);
 
             gameTimer.Interval = 100;
-            gameTimer.Tick += draw;
+          gameTimer.Tick += draw;
             gameTimer.Start();
 
-            this.snake = new Snake();
-            startGame();
+           this.snake = new Snake();
+           startGame();
         }
 
         public void draw(object sender, EventArgs e)
@@ -57,6 +86,34 @@ namespace SnakeProject
         }
 
 
+
+
+        private void gamePanel_Paint(object sender, PaintEventArgs e)
+        {
+            var p = sender as Panel;
+            var g = e.Graphics;
+
+            Brush brush = new SolidBrush(Color.DarkGreen);
+            Brush brush_wall = new SolidBrush(Color.Blue);
+            Brush brush_food = new SolidBrush(Color.IndianRed);
+
+            this.snake.pixels.ForEach((pixel) =>
+            {
+                g.FillRectangle(brush, pixel.x, pixel.y, WIDTH, HEIGHT);
+            });
+
+            this.walls.ForEach((wall) =>
+            {
+                g.FillRectangle(brush_wall, wall.x, wall.y, WIDTH, HEIGHT);
+            });
+
+            this.foods.ForEach((food) =>
+            {
+                g.FillRectangle(brush_food, food.x, food.y, WIDTH, HEIGHT);
+            });
+        }
+
+
         private void startGame()
         {
             this.gameOver = false;
@@ -69,12 +126,12 @@ namespace SnakeProject
             buttonRestart.Hide();
             labelGameOver.Hide();
 
-            addFoods(NB_FOODS_INIT);
-            addWalls(NB_WALLS_INIT);
+            addElements("food", NB_FOODS_INIT);
+            addElements("wall", NB_WALLS_INIT);
         }
 
 
-        private void addFoods(int nb)
+        private void addElements(string type, int nb)
         {
             Random rnd = new Random();
 
@@ -85,29 +142,12 @@ namespace SnakeProject
 
                 if (checkEmptyPosition(random_x, random_y))
                 {
-                    this.foods.Add(new Food(random_x, random_y));
+                    if (type == "food") this.foods.Add(new Food(random_x, random_y));
+                    else this.walls.Add(new Wall(random_x, random_y));
                 }
                 else i--;
              }
         }
-
-        private void addWalls(int nb)
-        {
-            Random rnd = new Random();
-
-            for (int i = 0; i < nb; i++)
-            {
-                int random_x = rnd.Next(1, 679) % 20 * 40;
-                int random_y = rnd.Next(1, 379) % 20 * 20;
-
-                if (checkEmptyPosition(random_x, random_y))
-                {
-                    this.walls.Add(new Wall(random_x, random_y));
-                }
-                else i--;
-            }
-        }
-
 
         private bool checkEmptyPosition(int x, int y)
         {
@@ -137,36 +177,6 @@ namespace SnakeProject
 
             return true;
         }
-
-
-
-        private void gamePanel_Paint(object sender, PaintEventArgs e)
-        {
-            var p = sender as Panel;
-            var g = e.Graphics;
-
-            Brush brush = new SolidBrush(Color.DarkGreen);
-            Brush brush_wall = new SolidBrush(Color.Blue);
-            Brush brush_food = new SolidBrush(Color.IndianRed);
-
-            this.snake.pixels.ForEach((pixel) =>
-            {
-                g.FillRectangle(brush, pixel.x, pixel.y, WIDTH, HEIGHT);
-            });
-
-            this.walls.ForEach((wall) =>
-            {
-                g.FillRectangle(brush_wall, wall.x, wall.y, WIDTH, HEIGHT);
-            });
-
-            this.foods.ForEach((food) =>
-            {
-                g.FillRectangle(brush_food, food.x, food.y, WIDTH, HEIGHT);
-            });
-
-
-        }
-
 
 
         private void checkBorders()
@@ -213,11 +223,9 @@ namespace SnakeProject
                     this.snake.pixels.Add(new Pixel(last_pixel_x, last_pixel_y));
 
                     this.foods.RemoveAt(i);
-                    addFoods(1);
+                    addElements("food", 1);
                 }
             }
-
-
         }
 
         private void checkWall()
@@ -289,6 +297,11 @@ namespace SnakeProject
         private void buttonRestart_Click(object sender, EventArgs e)
         {
             startGame();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

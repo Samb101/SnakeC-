@@ -9,43 +9,56 @@ namespace SnakeScores
 {
         [Serializable]
         public class Score
-        {
+            {
 
             private static List<Score> scores = new List<Score>();
-
-
             private static XmlSerializer xs = new XmlSerializer(typeof(List<Score>));
+            public String name { get; /*private*/ set; }
+            public Int32 score { get; /*private*/ set; }
+
+            public Score()
+            {
+                this.score = 0;
+                this.name = null;
+            }
+
+            public Score(String name, int score)
+            {
+                this.score = score;
+                this.name = name;
+            }
+
 
 
             public static void LoadData(String filename)
-            {
-               Debug.WriteLine("[LIBINFO] Reading file " + filename);
-
-               scores = null;
-
-                try
                 {
-                    if (File.Exists(filename))
+                   Debug.WriteLine("[LIBINFO] Reading file " + filename);
+
+                   scores = null;
+
+                    try
                     {
-                        using (XmlReader xr = XmlReader.Create(filename))
+                        if (File.Exists(filename))
                         {
-                            scores = (List<Score>)xs.Deserialize(xr);
+                            using (XmlReader xr = XmlReader.Create(filename))
+                            {
+                                scores = (List<Score>)xs.Deserialize(xr);
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine("[LIBERROR] Error reading the file " + filename);
+                        Debug.WriteLine("           " + e.ToString());
+                    }
+                    finally
+                    {
+                        if (scores == null)
+                        {
+                            scores = new List<Score>();
                         }
                     }
                 }
-                catch (Exception e)
-                {
-                    Debug.WriteLine("[LIBERROR] Error reading the file " + filename);
-                    Debug.WriteLine("           " + e.ToString());
-                }
-                finally
-                {
-                    if (scores == null)
-                    {
-                        scores = new List<Score>();
-                    }
-                }
-            }
 
             public static void SaveData(String filename)
             {
@@ -83,9 +96,11 @@ namespace SnakeScores
             {
                 foreach (Score student in scores)
                 {
-                    Console.WriteLine(student.ToString());
-                }
+                    Console.WriteLine(student.name.ToString());
+                    Console.WriteLine(student.score.ToString());
+
             }
+        }
 
             public static Score RegisterScore(Score NewScore)
             {
@@ -93,32 +108,14 @@ namespace SnakeScores
                 return NewScore;
             }
 
-            public static Score RegisterScore(String firstname, String lastname, int grade)
+            public static Score RegisterScore(String firstname, int score)
             {
-                return RegisterScore(new Score(firstname, lastname, grade));
+                return RegisterScore(new Score(firstname,  score));
             }
 
             public static List<Score> Scores
             {
                 get { return scores; }
-            }
-
-            public String firstname { get; /*private*/ set; }
-            public String lastname { get; /*private*/ set; }
-            public Int32 grade { get; /*private*/ set; } 
-
-            public Score()
-            {
-                this.grade = 0;
-                this.firstname = null;
-                this.lastname = null;
-            }
-
-            public Score(String firstname, String lastname, int grade)
-            {
-                this.grade = grade;
-                this.firstname = firstname;
-                this.lastname = lastname;
             }
 
         }
