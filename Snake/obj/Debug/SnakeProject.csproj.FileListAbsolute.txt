@@ -37,3 +37,15 @@ C:\Users\BENAÏS\Desktop\SnakeC-\Snake\obj\Debug\SnakeProject.csproj.GenerateRes
 C:\Users\BENAÏS\Desktop\SnakeC-\Snake\obj\Debug\SnakeProject.ScoreTab.resources
 C:\Users\BENAÏS\Desktop\SnakeC-\Snake\obj\Debug\SnakeProject.StartTab.resources
 C:\Users\BENAÏS\Desktop\SnakeC-\Snake\obj\Debug\SnakeProject.GroupeTab.resources
+C:\Users\jpo\Desktop\sn\Snake\bin\Debug\SnakeProject.exe.config
+C:\Users\jpo\Desktop\sn\Snake\obj\Debug\SnakeProject.exe
+C:\Users\jpo\Desktop\sn\Snake\obj\Debug\SnakeProject.pdb
+C:\Users\jpo\Desktop\sn\Snake\bin\Debug\SnakeProject.exe
+C:\Users\jpo\Desktop\sn\Snake\bin\Debug\SnakeProject.pdb
+C:\Users\jpo\Desktop\sn\Snake\obj\Debug\SnakeProject.csprojResolveAssemblyReference.cache
+C:\Users\jpo\Desktop\sn\Snake\obj\Debug\SnakeProject.StartTab.resources
+C:\Users\jpo\Desktop\sn\Snake\obj\Debug\SnakeProject.GroupeTab.resources
+C:\Users\jpo\Desktop\sn\Snake\obj\Debug\SnakeProject.ScoreTab.resources
+C:\Users\jpo\Desktop\sn\Snake\obj\Debug\SnakeProject.SnakeGame.resources
+C:\Users\jpo\Desktop\sn\Snake\obj\Debug\SnakeProject.Properties.Resources.resources
+C:\Users\jpo\Desktop\sn\Snake\obj\Debug\SnakeProject.csproj.GenerateResource.Cache

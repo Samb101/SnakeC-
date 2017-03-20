@@ -25,8 +25,9 @@ namespace SnakeProject
         private int WIDTH = 20;
         private int HEIGHT = 20;
         private int SPEED = 20;
-        private int NB_WALLS_INIT = 15;
-        private int NB_FOODS_INIT = 5;
+        private int NB_WALLS_INIT = 0;
+        private int NB_FOODS_INIT = 30;
+        private bool pause;
 
 
         private Snake snake;
@@ -68,7 +69,6 @@ namespace SnakeProject
             if (this.gameOver == false)
             {
 
-
                 boxPseudo.Show();
                 labelSave.Show();
                 labelSaveName.Show();
@@ -94,22 +94,44 @@ namespace SnakeProject
         }
 
 
-
         private void gamePanel_Paint(object sender, PaintEventArgs e)
         {
             var p = sender as Panel;
             var g = e.Graphics;
 
-            Brush brush = new SolidBrush(Color.DarkGreen);
-            Brush brush_wall = new SolidBrush(Color.Blue);
-            Brush brush_food = new SolidBrush(Color.IndianRed);
+            Image head = SnakeProject.Properties.Resources.tete;
+            Image queue = SnakeProject.Properties.Resources.queue;
 
-            this.snake.pixels.ForEach((pixel) =>
+            RotateFlipType rotation = this.snake.pixels.ElementAt(0).computeRotation();
+            head.RotateFlip(rotation);
+            g.DrawImage(head, this.snake.pixels.ElementAt(0).x, this.snake.pixels.ElementAt(0).y, WIDTH, HEIGHT);
+
+
+            for (int i = 1; i < this.snake.pixels.Count() - 1; i++)
             {
-                g.FillRectangle(brush, pixel.x, pixel.y, WIDTH, HEIGHT);
-            });
+                Image body = SnakeProject.Properties.Resources.body;
+                Image coude = SnakeProject.Properties.Resources.coude;
+                Pixel current = this.snake.pixels.ElementAt(i);
 
-            this.walls.ForEach((wall) =>
+                rotation = current.computeRotation();
+
+                if (current.isRotating) {
+                    current.isRotating = false;
+                    coude.RotateFlip(rotation);
+                    g.DrawImage(coude, current.x, current.y, WIDTH, HEIGHT);
+                } else {
+                    body.RotateFlip(rotation);
+                    g.DrawImage(body, current.x, current.y, WIDTH, HEIGHT);
+                }
+            }
+
+
+            rotation = this.snake.pixels.Last().computeRotation();
+            queue.RotateFlip(rotation);
+            g.DrawImage(queue, this.snake.pixels.Last().x, this.snake.pixels.Last().y, WIDTH, HEIGHT);
+
+
+        /*  this.walls.ForEach((wall) =>
             {
                 g.FillRectangle(brush_wall, wall.x, wall.y, WIDTH, HEIGHT);
             });
@@ -117,7 +139,7 @@ namespace SnakeProject
             this.foods.ForEach((food) =>
             {
                 g.FillRectangle(brush_food, food.x, food.y, WIDTH, HEIGHT);
-            });
+            });*/
         }
 
 
@@ -191,7 +213,7 @@ namespace SnakeProject
         {
             Pixel head = this.snake.pixels.ElementAt(0);
 
-            if (head.x > (gamePanel.Width - 19))
+            if (head.x > (gamePanel.Width - WIDTH + 1))
             {
                 head.x = 0;
             }
@@ -199,7 +221,7 @@ namespace SnakeProject
             {
                 head.x = gamePanel.Width;
             }
-            if (head.y > (gamePanel.Height - 19))
+            if (head.y > (gamePanel.Height - WIDTH + 1))
             {
                 head.y = 0;
             }
@@ -221,14 +243,16 @@ namespace SnakeProject
                 if (head.x == f.x && head.y == f.y)
                 {
                     int last_pixel_x, last_pixel_y;
+                    Vector last_pixel_direction;
 
                     last_pixel_x = this.snake.pixels.ElementAt(this.snake.pixels.Count - 1).x;
                     last_pixel_y = this.snake.pixels.ElementAt(this.snake.pixels.Count - 1).y;
+                    last_pixel_direction = this.snake.pixels.Last().direction;
 
                     this.score += 20;
                     labelScore.Text = this.score.ToString();
 
-                    this.snake.pixels.Add(new Pixel(last_pixel_x, last_pixel_y));
+                    this.snake.pixels.Add(new Pixel(last_pixel_x, last_pixel_y, last_pixel_direction));
 
                     this.foods.RemoveAt(i);
                     addElements("food", 1);
@@ -265,37 +289,59 @@ namespace SnakeProject
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
+            Pixel head = this.snake.pixels.ElementAt(0);
+
             switch (keyData)
             {
                 case Keys.Right:
-                    if (this.snake.direction.x != -1)
+                    if (head.direction.x != -1)
                     {
-                        this.snake.direction.x = 1;
-                        this.snake.direction.y = 0;
+                        head.direction.x = 1;
+                        head.direction.y = 0;
                     }
                     return true;
                 case Keys.Left:
-                    if (this.snake.direction.x != 1)
+                    if (head.direction.x != 1)
                     {
-                        this.snake.direction.x = -1;
-                        this.snake.direction.y = 0;
+                        head.direction.x = -1;
+                        head.direction.y = 0;
                     }
                     return true;
                 case Keys.Up:
-                    if (this.snake.direction.y != 1)
+                    if (head.direction.y != 1)
                     {
-                        this.snake.direction.y = -1;
-                        this.snake.direction.x = 0;
+                        head.direction.y = -1;
+                        head.direction.x = 0;
                     }
                     return true;
                 case Keys.Down:
 
-                    if (this.snake.direction.y != -1)
+                    if (head.direction.y != -1)
                     {
-                        this.snake.direction.y = 1;
-                        this.snake.direction.x = 0;
-
+                        head.direction.y = 1;
+                        head.direction.x = 0;
                     }
+
+                    return true;
+                case Keys.Enter:
+                    if (this.pause == false)
+                    {
+                        gamePanel.Paint -= gamePanel_Paint;
+                        gameTimer.Tick -= draw;
+                        gameTimer.Stop();
+                        label4.Text = "Reprendre (ENTER)";
+
+                        this.pause = true;
+
+                    }else{
+                        gamePanel.Paint += gamePanel_Paint;
+                        gameTimer.Tick += draw;
+                        gameTimer.Start();
+                        label4.Text = "Pause (ENTER)";
+
+                        this.pause = false;
+                    }
+
                     return true;
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);
@@ -363,8 +409,8 @@ namespace SnakeProject
 
         private void resetTabs()
         {
-            gamePanel.Paint += null;
-            gameTimer.Tick += null;
+            gamePanel.Paint -= gamePanel_Paint;
+            gameTimer.Tick -= draw;
             gameTimer.Stop();
 
             this.snake = null;

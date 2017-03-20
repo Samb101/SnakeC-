@@ -94,9 +94,9 @@
             this.gamePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.gamePanel.Controls.Add(this.gameOverPanel);
             this.gamePanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gamePanel.Location = new System.Drawing.Point(0, 0);
+            this.gamePanel.Location = new System.Drawing.Point(9, 9);
             this.gamePanel.Name = "gamePanel";
-            this.gamePanel.Size = new System.Drawing.Size(886, 481);
+            this.gamePanel.Size = new System.Drawing.Size(860, 460);
             this.gamePanel.TabIndex = 4;
             // 
             // gameOverPanel
@@ -332,7 +332,7 @@
             // 
             // contentPanel
             // 
-            this.contentPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.contentPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(126)))), ((int)(((byte)(49)))));
             this.contentPanel.Controls.Add(this.gamePanel);
             this.contentPanel.Location = new System.Drawing.Point(218, 113);
             this.contentPanel.Name = "contentPanel";
