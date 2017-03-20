@@ -20,6 +20,7 @@ namespace SnakeProject
            int nHeightEllipse // width of ellipse
         );
 
+        private const string SCORES_FILENAME = @"../../data/scores.xml";
 
         private int WIDTH = 20;
         private int HEIGHT = 20;
@@ -46,29 +47,34 @@ namespace SnakeProject
         private const int WM_NCHITTEST = 0x84;
         private const int HT_CLIENT = 0x1;
         private const int HT_CAPTION = 0x2;
-        
 
-
-
-    public SnakeGame()
+        public SnakeGame()
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.None;
             Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 10, 10));
-            gamePanel.Paint += new PaintEventHandler(gamePanel_Paint);
 
-            gameTimer.Interval = 100;
-          gameTimer.Tick += draw;
-            gameTimer.Start();
 
-           this.snake = new Snake();
-           startGame();
+            StartTab st = new StartTab();
+            st.TopLevel = false;
+            st.AutoScroll = true;
+            resetTabs();
+            contentPanel.Controls.Add(st);
+            st.Show();
         }
 
         public void draw(object sender, EventArgs e)
         {
             if (this.gameOver == false)
             {
+
+
+                boxPseudo.Show();
+                labelSave.Show();
+                labelSaveName.Show();
+
+                labelSaveOk.Hide();
+
                 this.snake.nextStep(this.SPEED);
                 this.gamePanel.Invalidate();
 
@@ -80,11 +86,12 @@ namespace SnakeProject
             }
             else
             {
-                this.labelGameOver.Show();
-                this.buttonRestart.Show();
+
+                this.gameOverPanel.Show();
+                this.labelEndScore.Text = this.labelScore.Text;
+
             }
         }
-
 
 
 
@@ -117,14 +124,15 @@ namespace SnakeProject
         private void startGame()
         {
             this.gameOver = false;
+
             this.foods.Clear();
             this.walls.Clear();
+            this.gameOverPanel.Hide();
+
             this.snake = new Snake();
+
             this.score = 0;
             labelScore.Text = this.score.ToString();
-
-            buttonRestart.Hide();
-            labelGameOver.Hide();
 
             addElements("food", NB_FOODS_INIT);
             addElements("wall", NB_WALLS_INIT);
@@ -137,8 +145,8 @@ namespace SnakeProject
 
             for (int i = 0; i < nb; i++)
             {
-                int random_x = rnd.Next(1, 679) % 20 * 40;
-                int random_y = rnd.Next(1, 379) % 20 * 20;
+                int random_x = (rnd.Next(0, (gamePanel.Width / 20) - 1)) * 20;
+                int random_y = (rnd.Next(0, (gamePanel.Height / 20) - 1)) * 20;
 
                 if (checkEmptyPosition(random_x, random_y))
                 {
@@ -146,14 +154,14 @@ namespace SnakeProject
                     else this.walls.Add(new Wall(random_x, random_y));
                 }
                 else i--;
-             }
+            }
         }
 
         private bool checkEmptyPosition(int x, int y)
         {
-            for(int i = 0; i < this.foods.Count(); i++)
+            for (int i = 0; i < this.foods.Count(); i++)
             {
-                if ( x == this.foods.ElementAt(i).x  && y == this.foods.ElementAt(i).y)
+                if (x == this.foods.ElementAt(i).x && y == this.foods.ElementAt(i).y)
                 {
                     return false;
                 }
@@ -183,21 +191,21 @@ namespace SnakeProject
         {
             Pixel head = this.snake.pixels.ElementAt(0);
 
-            if (head.x > 681)
+            if (head.x > (gamePanel.Width - 19))
             {
                 head.x = 0;
             }
             if (head.x < 0)
             {
-                head.x = 700;
+                head.x = gamePanel.Width;
             }
-            if (head.y > 381)
+            if (head.y > (gamePanel.Height - 19))
             {
                 head.y = 0;
             }
             if (head.y < 0)
             {
-                head.y = 400;
+                head.y = gamePanel.Height;
             }
 
         }
@@ -244,7 +252,7 @@ namespace SnakeProject
 
         private void checkItself()
         {
-            for(int i = 2; i < this.snake.pixels.Count(); i++)
+            for (int i = 2; i < this.snake.pixels.Count(); i++)
             {
                 if (this.snake.pixels.ElementAt(0).x == this.snake.pixels.ElementAt(i).x && this.snake.pixels.ElementAt(0).y == this.snake.pixels.ElementAt(i).y)
                 {
@@ -294,14 +302,108 @@ namespace SnakeProject
             }
         }
 
-        private void buttonRestart_Click(object sender, EventArgs e)
+
+        private void labelRestart_Click(object sender, EventArgs e)
         {
             startGame();
+
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void labelClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void reduceLabel_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+            // pause du jeu
+        }
+
+        private void boxPseudo_TextChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(boxPseudo.Text))
+            {
+                labelSave.ForeColor = System.Drawing.ColorTranslator.FromHtml("#ffffff");
+            }
+            else
+            {
+                labelSave.ForeColor = System.Drawing.ColorTranslator.FromHtml("#777777");
+            }
+        }
+
+        private void labelSave_Click(object sender, EventArgs e)
         {
 
+            string userName = boxPseudo.Text;
+            int userScore = Int32.Parse(labelEndScore.Text);
+
+            Score.LoadData(SCORES_FILENAME);
+            Score.RegisterScore(userName, userScore);
+            Score.SaveData(SCORES_FILENAME);
+
+            boxPseudo.Hide();
+            labelSave.Hide();
+            labelSaveName.Hide();
+
+            labelSaveOk.Show();
+        }
+
+        private void scoresTab_Click(object sender, EventArgs e)
+        {
+
+            ScoreTab st = new ScoreTab();
+            st.TopLevel = false;
+            st.AutoScroll = true;
+            resetTabs();
+            contentPanel.Controls.Add(st);
+            st.Show();
+        }
+
+
+        private void resetTabs()
+        {
+            gamePanel.Paint += null;
+            gameTimer.Tick += null;
+            gameTimer.Stop();
+
+            this.snake = null;
+
+            label1.Hide();
+            labelScore.Hide();
+            label4.Hide();
+
+            contentPanel.Controls.Clear();
+           
+        }
+
+        private void labelPlay_Click(object sender, EventArgs e)
+        {  
+            resetTabs();
+            contentPanel.Controls.Add(gamePanel);
+
+            label1.Show();
+            labelScore.Show();
+            label4.Show();
+
+            gamePanel.Paint += new PaintEventHandler(gamePanel_Paint);
+
+            gameTimer.Interval = 100;
+            gameTimer.Tick += draw;
+            gameTimer.Start();
+
+            this.snake = new Snake();
+            startGame(); 
+        }
+
+        private void labelGroupe_Click(object sender, EventArgs e)
+        {
+            GroupeTab st = new GroupeTab();
+            st.TopLevel = false;
+            st.AutoScroll = true;
+            resetTabs();
+            contentPanel.Controls.Add(st);
+            st.Show();
         }
     }
 }

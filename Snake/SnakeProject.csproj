@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>snake-145409_1280-300x150.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,8 +48,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Food.cs" />
+    <Compile Include="StartTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StartTab.Designer.cs">
+      <DependentUpon>StartTab.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GroupeTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GroupeTab.Designer.cs">
+      <DependentUpon>GroupeTab.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ScoreTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScoreTab.Designer.cs">
+      <DependentUpon>ScoreTab.cs</DependentUpon>
+    </Compile>
     <Compile Include="Pixel.cs" />
-    <Compile Include="Scores.cs" />
+    <Compile Include="Score.cs" />
     <Compile Include="SnakeGame.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +79,15 @@
     <Compile Include="Snake.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="Wall.cs" />
+    <EmbeddedResource Include="StartTab.resx">
+      <DependentUpon>StartTab.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GroupeTab.resx">
+      <DependentUpon>GroupeTab.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScoreTab.resx">
+      <DependentUpon>ScoreTab.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SnakeGame.resx">
       <DependentUpon>SnakeGame.cs</DependentUpon>
     </EmbeddedResource>
@@ -83,6 +113,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\snakeLogo.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\snake-145409_1280-300x150.ico" />
+    <Content Include="snake-145409_1280-300x150.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

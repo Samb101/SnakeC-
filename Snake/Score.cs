@@ -5,7 +5,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace SnakeScores
+namespace SnakeProject
 {
         [Serializable]
         public class Score
