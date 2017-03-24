@@ -122,8 +122,8 @@
     <None Include="Resources\snake-145409_1280-300x150.ico" />
     <None Include="Resources\tete.png" />
     <None Include="Resources\body.png" />
-    <None Include="Resources\coude.png" />
     <None Include="Resources\queue.png" />
+    <None Include="Resources\coude.png" />
     <Content Include="snake-145409_1280-300x150.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -26,7 +26,7 @@ namespace SnakeProject
         private int HEIGHT = 20;
         private int SPEED = 20;
         private int NB_WALLS_INIT = 0;
-        private int NB_FOODS_INIT = 30;
+        private int NB_FOODS_INIT = 0;
         private bool pause;
 
 
@@ -110,19 +110,26 @@ namespace SnakeProject
             for (int i = 1; i < this.snake.pixels.Count() - 1; i++)
             {
                 Image body = SnakeProject.Properties.Resources.body;
-                Image coude = SnakeProject.Properties.Resources.coude;
+
                 Pixel current = this.snake.pixels.ElementAt(i);
+
+
+                if ((this.snake.pixels.ElementAt(i - 1).x != this.snake.pixels.ElementAt(i + 1).x) 
+                    && (this.snake.pixels.ElementAt(i - 1).y != this.snake.pixels.ElementAt(i + 1).y))
+                {
+                    body = SnakeProject.Properties.Resources.coude;
+                    current.direction.x = (this.snake.pixels.ElementAt(i - 1).x - this.snake.pixels.ElementAt(i + 1).x)/20 ;
+                    current.direction.y = (this.snake.pixels.ElementAt(i - 1).y - this.snake.pixels.ElementAt(i + 1).y)/20 ;
+                    Console.WriteLine("x :" + current.direction.x);
+                    Console.WriteLine("y :" + current.direction.y);
+
+                }
 
                 rotation = current.computeRotation();
 
-                if (current.isRotating) {
-                    current.isRotating = false;
-                    coude.RotateFlip(rotation);
-                    g.DrawImage(coude, current.x, current.y, WIDTH, HEIGHT);
-                } else {
-                    body.RotateFlip(rotation);
-                    g.DrawImage(body, current.x, current.y, WIDTH, HEIGHT);
-                }
+                body.RotateFlip(rotation);
+                g.DrawImage(body, current.x, current.y, WIDTH, HEIGHT);
+                
             }
 
 

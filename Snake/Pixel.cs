@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Drawing;
 namespace SnakeProject
 {
@@ -17,37 +18,57 @@ namespace SnakeProject
             this.isRotating = false;
         }
 
-        public RotateFlipType computeRotationX()
-        {
-            switch (this.direction.x)
-            {
-                case -1:
-                    return RotateFlipType.Rotate180FlipY;
-                case 1:
-                    return RotateFlipType.RotateNoneFlipY;
-                default:
-                    return RotateFlipType.RotateNoneFlipY;
-            }
-        }
-
-
-        public RotateFlipType computeRotationY()
-        {
-            switch (this.direction.y)
-            {
-                case 1:
-                    return RotateFlipType.Rotate270FlipY;
-                case -1:
-                    return RotateFlipType.Rotate90FlipY;
-                default:
-                    return RotateFlipType.RotateNoneFlipY;
-            }
-        }
-
         public RotateFlipType computeRotation() {
-            return this.computeRotationX() == RotateFlipType.RotateNoneFlipY
-                    ? this.computeRotationY()
-                    : this.computeRotationX();
+
+
+            if (this.direction.x == 0 && this.direction.y == 1)
+            {
+                return RotateFlipType.Rotate90FlipNone;
+
+            }
+            if (this.direction.x == 1 && this.direction.y == 0)
+            {
+                return RotateFlipType.RotateNoneFlipNone;
+
+            }
+            if (this.direction.x == 0 && this.direction.y == -1)
+            {
+                return RotateFlipType.Rotate270FlipNone;
+
+            }
+            if (this.direction.x == -1 && this.direction.y == 0)
+            {
+                return RotateFlipType.Rotate180FlipNone;
+
+            }
+
+
+
+
+
+
+
+            if (this.direction.x == 1 && this.direction.y == 1)
+            {
+                return RotateFlipType.RotateNoneFlipNone;
+
+            }
+            if (this.direction.x == -1 && this.direction.y == 1)
+            {
+                return RotateFlipType.RotateNoneFlipY;
+
+            }
+            if (this.direction.x == 1 && this.direction.y == -1)
+            {
+                return RotateFlipType.RotateNoneFlipNone;
+            }
+            if (this.direction.x == -1 && this.direction.y == -1)
+            {
+                return RotateFlipType.RotateNoneFlipY;
+            }
+
+            return RotateFlipType.Rotate270FlipY;
+
         }
     }
 }
